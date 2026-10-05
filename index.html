@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Revaloriza · Estimado del Mercado</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --naranja:#FF6600; --naranja-osc:#D95500;
+    --marino:#2E4C8C; --noche:#0E2A47;
+    --fondo:#EEF3F8; --papel:#FFFFFF; --tinta:#16263A; --gris:#5B6B7F; --linea:#D5DEE8;
+    --ok:#1E8E5A;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--fondo);color:var(--tinta);font-family:'Lexend',system-ui,sans-serif;font-size:16px;line-height:1.5}
+  body{padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
+  .wrap{max-width:480px;margin:0 auto;padding:20px 18px 40px}
+  header{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+  .marca{width:44px;height:44px;flex:none}
+  .marca-txt b{display:block;color:var(--naranja);font-weight:800;font-size:1.25rem;line-height:1;letter-spacing:.02em}
+  .marca-txt span{color:var(--marino);font-weight:600;font-size:.78rem;letter-spacing:.06em}
+  h1{font-size:1.6rem;line-height:1.15;margin:0 0 6px;color:var(--noche);font-weight:700}
+  .sub{color:var(--gris);margin:0 0 22px}
+  .paso{background:var(--papel);border-radius:18px;padding:18px;margin-bottom:14px;border:1px solid var(--linea)}
+  .paso h2{font-size:1rem;margin:0 0 14px;display:flex;gap:10px;align-items:center;color:var(--noche)}
+  .num{width:26px;height:26px;border-radius:50%;background:var(--marino);color:#fff;font-size:.85rem;display:grid;place-items:center;flex:none}
+  label{display:block;font-size:.88rem;color:var(--gris);margin:12px 0 6px}
+  label:first-of-type{margin-top:0}
+  select,input{width:100%;font:inherit;font-size:1rem;padding:12px 14px;border:1.5px solid var(--linea);border-radius:12px;background:#fff;color:var(--tinta);appearance:none}
+  select{background-image:linear-gradient(45deg,transparent 50%,var(--marino) 50%),linear-gradient(135deg,var(--marino) 50%,transparent 50%);background-position:calc(100% - 20px) 52%,calc(100% - 14px) 52%;background-size:6px 6px;background-repeat:no-repeat}
+  select:focus,input:focus{outline:none;border-color:var(--marino);box-shadow:0 0 0 3px rgba(46,76,140,.18)}
+  .fila{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .btn{display:block;width:100%;border:0;border-radius:14px;padding:15px;font:inherit;font-weight:700;font-size:1.05rem;cursor:pointer;text-align:center;text-decoration:none}
+  .btn:focus-visible{outline:3px solid var(--noche);outline-offset:2px}
+  .btn-n{background:var(--naranja);color:#fff}
+  .btn-n:active{background:var(--naranja-osc)}
+  .btn-wa{background:#25D366;color:#fff;margin-top:10px}
+  .btn-m{background:var(--marino);color:#fff}
+  .err{color:#B42318;font-size:.88rem;margin-top:8px;min-height:1em}
+
+  /* Resultado: el recibo */
+  #resultado{display:none}
+  .recibo{background:var(--noche);color:#fff;border-radius:22px;padding:22px 20px 20px;margin-bottom:14px;position:relative;overflow:hidden}
+  .recibo::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:12px;background:radial-gradient(circle at 8px 12px,var(--fondo) 7px,transparent 7.5px) 0 0/16px 12px repeat-x}
+  .recibo .lin{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px dashed rgba(255,255,255,.22);font-size:.95rem}
+  .recibo .lin span:first-child{color:#B9C7DA}
+  .tachado{text-decoration:line-through;text-decoration-thickness:2px;text-decoration-color:var(--naranja);color:#DCE5F0}
+  .total{padding-top:16px}
+  .total small{display:block;color:#B9C7DA;font-size:.85rem}
+  .total .monto{font-size:2.6rem;font-weight:800;line-height:1.05;color:#fff;margin:4px 0 2px}
+  .total .monto em{font-style:normal;font-size:1rem;font-weight:500;color:#B9C7DA}
+  .aviso-sub{background:rgba(255,102,0,.14);border-left:4px solid var(--naranja);border-radius:10px;padding:12px 14px;margin-top:16px;font-size:.92rem;color:#fff}
+  .nota{font-size:.78rem;color:var(--gris);line-height:1.45;margin:14px 2px 0}
+  .alt{font-size:.92rem;color:var(--tinta);background:#fff;border:1px solid var(--linea);border-radius:14px;padding:14px;margin-bottom:14px}
+  .gracias{display:none;text-align:center;padding:10px 0 4px;color:var(--ok);font-weight:600}
+  @media (prefers-reduced-motion:no-preference){
+    .aparece{animation:sube .45s ease-out both}
+    @keyframes sube{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <svg class="marca" viewBox="0 0 100 100" aria-hidden="true">
+      <path d="M50 88 C20 66 6 50 6 32 C6 18 17 8 30 8 C39 8 46 13 50 20 C54 13 61 8 70 8 C83 8 94 18 94 32 C94 50 80 66 50 88Z" fill="#FF6600"/>
+      <path d="M58 82 C38 66 26 54 26 40 C26 30 34 22 44 22 C51 22 56 26 59 31 C62 26 67 22 74 22 C84 22 91 30 91 40 C91 54 80 66 58 82Z" fill="#2E4C8C"/>
+      <path d="M30 30h12v-12h12v12h12v12h-12v12h-12v-12h-12z" fill="#fff"/>
+    </svg>
+    <div class="marca-txt"><b>REVALORIZA</b><span>INSURANCE ADVISORS</span></div>
+  </header>
+
+  <h1>¿Cuánto pagarías por un seguro del Mercado?</h1>
+  <p class="sub">Responde 4 datos y te mostramos un estimado en segundos.</p>
+
+  <section class="paso" id="form-calc">
+    <h2><span class="num">1</span>Tus datos básicos</h2>
+    <label for="estado">Estado donde vives</label>
+    <select id="estado">
+      <option value="">Elige tu estado</option>
+      <option value="FL">Florida</option>
+      <option value="KS">Kansas</option>
+      <option value="NC">North Carolina</option>
+      <option value="TN">Tennessee</option>
+      <option value="TX">Texas</option>
+      <option value="UT">Utah</option>
+    </select>
+    <div class="fila">
+      <div>
+        <label for="edad">Tu edad</label>
+        <input id="edad" type="number" inputmode="numeric" min="18" max="64" placeholder="Ej. 40">
+      </div>
+      <div>
+        <label for="edadPareja">Edad de tu pareja</label>
+        <input id="edadPareja" type="number" inputmode="numeric" min="18" max="64" placeholder="Opcional">
+      </div>
+    </div>
+    <div class="fila">
+      <div>
+        <label for="hijos">Hijos a cubrir</label>
+        <select id="hijos">
+          <option value="0">Ninguno</option><option value="1">1</option><option value="2">2</option>
+          <option value="3">3</option><option value="4">4</option><option value="5">5 o más</option>
+        </select>
+      </div>
+      <div>
+        <label for="hogar">Personas en tu hogar</label>
+        <select id="hogar">
+          <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option>
+          <option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option>
+        </select>
+      </div>
+    </div>
+    <label for="ingreso">Ingreso anual del hogar (aprox.)</label>
+    <input id="ingreso" type="number" inputmode="numeric" min="0" placeholder="Ej. 35000">
+    <div class="err" id="err1"></div>
+    <button class="btn btn-n" id="calcular">Ver mi estimado</button>
+  </section>
+
+  <div id="resultado">
+    <div class="recibo aparece">
+      <div class="lin"><span>Precio de mercado, plan Plata</span><span id="r-bruto" class="tachado"></span></div>
+      <div class="lin"><span>Subsidio estimado</span><span id="r-sub"></span></div>
+      <div class="total">
+        <small id="r-etiqueta">Podrías pagar alrededor de</small>
+        <div class="monto" id="r-neto"></div>
+        <small id="r-rango"></small>
+      </div>
+      <div class="aviso-sub" id="r-aviso"></div>
+    </div>
+
+    <div class="alt" id="r-alt">
+      ¿No calificas para el Mercado? También tenemos planes privados de accidentes, hospital, cáncer y vida, sin importar tu situación.
+    </div>
+
+    <section class="paso" id="form-lead">
+      <h2><span class="num">2</span>Recibe tu cotización exacta</h2>
+      <label for="nombre">Nombre</label>
+      <input id="nombre" type="text" autocomplete="name" placeholder="Tu nombre">
+      <div class="fila">
+        <div>
+          <label for="tel">WhatsApp</label>
+          <input id="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="305 555 1234">
+        </div>
+        <div>
+          <label for="zip">ZIP</label>
+          <input id="zip" type="text" inputmode="numeric" maxlength="5" placeholder="33134">
+        </div>
+      </div>
+      <div class="err" id="err2"></div>
+      <button class="btn btn-m" id="enviar">Enviar mis datos</button>
+      <div class="gracias" id="gracias">¡Recibido! Te escribimos pronto por WhatsApp.</div>
+      <a class="btn btn-wa" id="wa" href="#" target="_blank" rel="noopener">Hablar ahora por WhatsApp</a>
+    </section>
+
+    <p class="nota">
+      Estimado de referencia, no es una cotización oficial. Usa el precio promedio 2026 del plan Plata de referencia para una persona de 40 años en tu estado (KFF), ajustado por edad. Los precios 2027 pueden ser más altos. El subsidio depende de tus ingresos y requiere ciudadanía o presencia legal. Agentes independientes con licencia. No afiliados al gobierno federal ni a HealthCare.gov.
+    </p>
+  </div>
+</div>
+
+<script>
+  // ⚙️ Pega aquí la URL del Webhook de Make
+  const WEBHOOK_URL = "https://hook.us2.make.com/nsktms8kx353p6y0t9sk2shrb1sgnnmn";
+  const WHATSAPP = "13053457679";
+
+  const tg = window.Telegram && window.Telegram.WebApp;
+  if (tg) { tg.ready(); tg.expand(); }
+  const tgUser = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) || {};
+
+  // Plan Plata de referencia 2026, persona de 40 años (KFF)
+  const BENCH = { FL:683, KS:670, NC:638, TN:711, TX:661, UT:640 };
+  const NOMBRE_ESTADO = { FL:"Florida", KS:"Kansas", NC:"North Carolina", TN:"Tennessee", TX:"Texas", UT:"Utah" };
+
+  // Curva de edad federal por defecto
+  const CURVA = {21:1.000,22:1.000,23:1.000,24:1.000,25:1.004,26:1.024,27:1.048,28:1.087,29:1.119,30:1.135,31:1.159,32:1.183,33:1.198,34:1.214,35:1.222,36:1.230,37:1.238,38:1.246,39:1.262,40:1.278,41:1.302,42:1.325,43:1.357,44:1.397,45:1.444,46:1.500,47:1.563,48:1.635,49:1.706,50:1.786,51:1.865,52:1.952,53:2.040,54:2.135,55:2.230,56:2.333,57:2.437,58:2.548,59:2.603,60:2.714,61:2.810,62:2.873,63:2.952,64:3.000};
+  function factor(edad){
+    if (edad <= 14) return 0.765;
+    if (edad < 21) return {15:0.833,16:0.859,17:0.885,18:0.913,19:0.941,20:0.970}[edad];
+    if (edad >= 64) return 3.000;
+    return CURVA[edad];
+  }
+
+  // Línea de pobreza aprox. (48 estados)
+  const fpl = n => 15650 + 5500 * (n - 1);
+
+  // Porcentaje de aporte esperado (reglas estándar, sin subsidios mejorados)
+  function aporte(p){
+    const tramos = [[100,133,2.10,2.10],[133,150,3.14,4.19],[150,200,4.19,6.60],[200,250,6.60,8.44],[250,300,8.44,9.96],[300,400,9.96,9.96]];
+    for (const [a,b,x,y] of tramos){ if (p >= a && p < b) return (x + (y - x) * (p - a) / (b - a)) / 100; }
+    return null;
+  }
+
+  const $ = id => document.getElementById(id);
+  const money = n => "$" + Math.round(n).toLocaleString("en-US");
+  let ultimo = null;
+
+  $("calcular").addEventListener("click", () => {
+    const st = $("estado").value;
+    const edad = parseInt($("edad").value, 10);
+    const edadP = parseInt($("edadPareja").value, 10);
+    const hijos = parseInt($("hijos").value, 10);
+    let hogar = parseInt($("hogar").value, 10);
+    const ingreso = parseFloat($("ingreso").value);
+
+    if (!st) return $("err1").textContent = "Elige tu estado.";
+    if (!(edad >= 18 && edad <= 64)) return $("err1").textContent = "Escribe una edad entre 18 y 64 años.";
+    if (!(ingreso >= 0)) return $("err1").textContent = "Escribe tu ingreso anual aproximado.";
+    $("err1").textContent = "";
+
+    const cubiertos = 1 + (edadP ? 1 : 0) + hijos;
+    if (hogar < cubiertos) { hogar = cubiertos; $("hogar").value = Math.min(cubiertos, 8); }
+
+    const base = BENCH[st] / 1.278;
+    let bruto = base * factor(edad);
+    if (edadP >= 18) bruto += base * factor(Math.min(edadP, 64));
+    bruto += base * factor(10) * Math.min(hijos, 3);
+
+    const pct = ingreso / fpl(hogar) * 100;
+    const ap = aporte(pct);
+    let neto = bruto, sub = 0, aviso = "", etiqueta = "Podrías pagar alrededor de";
+
+    if (ap !== null) {
+      neto = Math.min(bruto, ingreso * ap / 12);
+      sub = bruto - neto;
+      aviso = "¡Buenas noticias! Con tu ingreso podrías calificar para subsidio. Envíanos tus datos y revisamos tu caso para que accedas a todos los ahorros disponibles; algunos planes Bronce pueden costar $0 o casi nada.";
+    } else if (pct < 100) {
+      etiqueta = "Precio sin ayuda";
+      aviso = st === "UT" && pct < 138
+        ? "Con ese ingreso podrías calificar para Medicaid en Utah. Envíanos tus datos y te ayudamos a revisarlo."
+        : "Con ese ingreso el subsidio puede no aplicar, pero hay otras opciones. Envíanos tus datos y buscamos la mejor para ti.";
+    } else {
+      etiqueta = "Precio sin ayuda";
+      aviso = "Con ese ingreso no aplica el subsidio federal, pero podemos buscarte planes más económicos. Envíanos tus datos y comparamos opciones.";
+    }
+
+    $("r-bruto").textContent = money(bruto) + "/mes";
+    $("r-bruto").className = sub > 0 ? "tachado" : "";
+    $("r-sub").textContent = sub > 0 ? "−" + money(sub) : "No aplica";
+    $("r-etiqueta").textContent = etiqueta;
+    $("r-neto").innerHTML = money(neto) + " <em>/mes</em>";
+    $("r-rango").textContent = "Rango estimado: " + money(neto * 0.85) + " a " + money(neto * 1.15) + " al mes";
+    $("r-aviso").textContent = aviso;
+
+    ultimo = { estado: NOMBRE_ESTADO[st], edad, edadPareja: edadP || "", hijos, hogar, ingreso,
+               precioMercado: Math.round(bruto), subsidio: Math.round(sub), estimado: Math.round(neto) };
+
+    $("resultado").style.display = "block";
+    actualizarWA();
+    $("resultado").scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  function actualizarWA(){
+    const r = ultimo || {};
+    const txt = `Hola, quiero cotizar un seguro del Mercado. Estado: ${r.estado || ""}. Edad: ${r.edad || ""}. Personas en el hogar: ${r.hogar || ""}. Mi estimado fue ${r.estimado ? "$" + r.estimado + "/mes" : ""}.`;
+    $("wa").href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(txt)}`;
+  }
+
+  $("enviar").addEventListener("click", async () => {
+    const nombre = $("nombre").value.trim();
+    let tel = $("tel").value.replace(/\D/g, "");
+    const zip = $("zip").value.replace(/\D/g, "");
+    if (!nombre) return $("err2").textContent = "Escribe tu nombre.";
+    if (tel.length === 10) tel = "1" + tel;
+    if (tel.length !== 11) return $("err2").textContent = "Escribe tu número de WhatsApp de 10 dígitos.";
+    if (zip.length !== 5) return $("err2").textContent = "Escribe tu ZIP de 5 dígitos.";
+    $("err2").textContent = "";
+
+    const datos = new URLSearchParams({
+      fuente: "Telegram", nombre, telefono: tel, zip, ...Object.fromEntries(Object.entries(ultimo || {}).map(([k,v]) => [k, String(v)])),
+      telegram_id: String(tgUser.id || ""), telegram_usuario: tgUser.username || ""
+    });
+
+    $("enviar").disabled = true; $("enviar").textContent = "Enviando…";
+    try {
+      await fetch(WEBHOOK_URL, { method: "POST", mode: "no-cors", body: datos });
+      $("enviar").style.display = "none";
+      $("gracias").style.display = "block";
+      if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred("success");
+    } catch (e) {
+      $("enviar").disabled = false; $("enviar").textContent = "Enviar mis datos";
+      $("err2").textContent = "No se pudo enviar. Usa el botón de WhatsApp.";
+    }
+  });
+</script>
+</body>
+</html>
