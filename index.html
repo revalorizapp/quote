@@ -20,7 +20,9 @@
   body{padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
   .wrap{max-width:480px;margin:0 auto;padding:20px 18px 40px}
   header{display:flex;align-items:center;gap:12px;margin-bottom:22px}
-  .marca{width:44px;height:44px;flex:none}
+  .marca{width:60px;height:60px;border-radius:50%;object-fit:cover;flex:none;box-shadow:0 2px 8px rgba(14,42,71,.18)}
+  .idioma{margin-left:auto;font:inherit;font-weight:700;font-size:.9rem;color:var(--marino);background:#fff;border:1.5px solid var(--marino);border-radius:999px;padding:7px 14px;cursor:pointer}
+  .idioma:focus-visible{outline:3px solid var(--naranja);outline-offset:2px}
   .marca-txt b{display:block;color:var(--naranja);font-weight:800;font-size:1.25rem;line-height:1;letter-spacing:.02em}
   .marca-txt span{color:var(--marino);font-weight:600;font-size:.78rem;letter-spacing:.06em}
   h1{font-size:1.6rem;line-height:1.15;margin:0 0 6px;color:var(--noche);font-weight:700}
@@ -66,22 +68,19 @@
 <body>
 <div class="wrap">
   <header>
-    <svg class="marca" viewBox="0 0 100 100" aria-hidden="true">
-      <path d="M50 88 C20 66 6 50 6 32 C6 18 17 8 30 8 C39 8 46 13 50 20 C54 13 61 8 70 8 C83 8 94 18 94 32 C94 50 80 66 50 88Z" fill="#FF6600"/>
-      <path d="M58 82 C38 66 26 54 26 40 C26 30 34 22 44 22 C51 22 56 26 59 31 C62 26 67 22 74 22 C84 22 91 30 91 40 C91 54 80 66 58 82Z" fill="#2E4C8C"/>
-      <path d="M30 30h12v-12h12v12h12v12h-12v12h-12v-12h-12z" fill="#fff"/>
-    </svg>
+    <img class="marca" src="data:image/jpeg;base64,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" alt="Revaloriza Insurance Advisors">
     <div class="marca-txt"><b>REVALORIZA</b><span>INSURANCE ADVISORS</span></div>
+    <button class="idioma" id="idioma" aria-label="Cambiar idioma / Change language">EN</button>
   </header>
 
-  <h1>¿Cuánto pagarías por un seguro del Mercado?</h1>
-  <p class="sub">Responde 4 datos y te mostramos un estimado en segundos.</p>
+  <h1 data-i18n="titulo"></h1>
+  <p class="sub" data-i18n="sub"></p>
 
   <section class="paso" id="form-calc">
-    <h2><span class="num">1</span>Tus datos básicos</h2>
-    <label for="estado">Estado donde vives</label>
+    <h2><span class="num">1</span><span data-i18n="paso1"></span></h2>
+    <label for="estado" data-i18n="estado"></label>
     <select id="estado">
-      <option value="">Elige tu estado</option>
+      <option value="" data-i18n="eligeEstado"></option>
       <option value="FL">Florida</option>
       <option value="KS">Kansas</option>
       <option value="NC">North Carolina</option>
@@ -91,56 +90,54 @@
     </select>
     <div class="fila">
       <div>
-        <label for="edad">Tu edad</label>
-        <input id="edad" type="number" inputmode="numeric" min="18" max="64" placeholder="Ej. 40">
+        <label for="edad" data-i18n="edad"></label>
+        <input id="edad" type="number" inputmode="numeric" min="18" max="64" data-i18n-ph="phEdad">
       </div>
       <div>
-        <label for="edadPareja">Edad de tu pareja</label>
-        <input id="edadPareja" type="number" inputmode="numeric" min="18" max="64" placeholder="Opcional">
+        <label for="edadPareja" data-i18n="edadPareja"></label>
+        <input id="edadPareja" type="number" inputmode="numeric" min="18" max="64" data-i18n-ph="phOpcional">
       </div>
     </div>
     <div class="fila">
       <div>
-        <label for="hijos">Hijos a cubrir</label>
+        <label for="hijos" data-i18n="hijos"></label>
         <select id="hijos">
-          <option value="0">Ninguno</option><option value="1">1</option><option value="2">2</option>
-          <option value="3">3</option><option value="4">4</option><option value="5">5 o más</option>
+          <option value="0" data-i18n="ninguno"></option><option value="1">1</option><option value="2">2</option>
+          <option value="3">3</option><option value="4">4</option><option value="5" data-i18n="cincoMas"></option>
         </select>
       </div>
       <div>
-        <label for="hogar">Personas en tu hogar</label>
+        <label for="hogar" data-i18n="hogar"></label>
         <select id="hogar">
           <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option>
           <option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option>
         </select>
       </div>
     </div>
-    <label for="ingreso">Ingreso anual del hogar (aprox.)</label>
-    <input id="ingreso" type="number" inputmode="numeric" min="0" placeholder="Ej. 35000">
+    <label for="ingreso" data-i18n="ingreso"></label>
+    <input id="ingreso" type="number" inputmode="numeric" min="0" data-i18n-ph="phIngreso">
     <div class="err" id="err1"></div>
-    <button class="btn btn-n" id="calcular">Ver mi estimado</button>
+    <button class="btn btn-n" id="calcular" data-i18n="calcular"></button>
   </section>
 
   <div id="resultado">
     <div class="recibo aparece">
-      <div class="lin"><span>Precio de mercado, plan Plata</span><span id="r-bruto" class="tachado"></span></div>
-      <div class="lin"><span>Subsidio estimado</span><span id="r-sub"></span></div>
+      <div class="lin"><span data-i18n="precioMercado"></span><span id="r-bruto" class="tachado"></span></div>
+      <div class="lin"><span data-i18n="subsidio"></span><span id="r-sub"></span></div>
       <div class="total">
-        <small id="r-etiqueta">Podrías pagar alrededor de</small>
+        <small id="r-etiqueta"></small>
         <div class="monto" id="r-neto"></div>
         <small id="r-rango"></small>
       </div>
       <div class="aviso-sub" id="r-aviso"></div>
     </div>
 
-    <div class="alt" id="r-alt">
-      ¿No calificas para el Mercado? También tenemos planes privados de accidentes, hospital, cáncer y vida, sin importar tu situación.
-    </div>
+    <div class="alt" id="r-alt" data-i18n="alt"></div>
 
     <section class="paso" id="form-lead">
-      <h2><span class="num">2</span>Recibe tu cotización exacta</h2>
-      <label for="nombre">Nombre</label>
-      <input id="nombre" type="text" autocomplete="name" placeholder="Tu nombre">
+      <h2><span class="num">2</span><span data-i18n="paso2"></span></h2>
+      <label for="nombre" data-i18n="nombre"></label>
+      <input id="nombre" type="text" autocomplete="name" data-i18n-ph="phNombre">
       <div class="fila">
         <div>
           <label for="tel">WhatsApp</label>
@@ -152,14 +149,12 @@
         </div>
       </div>
       <div class="err" id="err2"></div>
-      <button class="btn btn-m" id="enviar">Enviar mis datos</button>
-      <div class="gracias" id="gracias">¡Recibido! Te escribimos pronto por WhatsApp.</div>
-      <a class="btn btn-wa" id="wa" href="#" target="_blank" rel="noopener">Hablar ahora por WhatsApp</a>
+      <button class="btn btn-m" id="enviar" data-i18n="enviar"></button>
+      <div class="gracias" id="gracias" data-i18n="gracias"></div>
+      <a class="btn btn-wa" id="wa" href="#" target="_blank" rel="noopener" data-i18n="whatsapp"></a>
     </section>
 
-    <p class="nota">
-      Estimado de referencia, no es una cotización oficial. Usa el precio promedio 2026 del plan Plata de referencia para una persona de 40 años en tu estado (KFF), ajustado por edad. Los precios 2027 pueden ser más altos. El subsidio depende de tus ingresos y requiere ciudadanía o presencia legal. Agentes independientes con licencia. No afiliados al gobierno federal ni a HealthCare.gov.
-    </p>
+    <p class="nota" data-i18n="nota"></p>
   </div>
 </div>
 
@@ -199,6 +194,69 @@
   const money = n => "$" + Math.round(n).toLocaleString("en-US");
   let ultimo = null;
 
+  const T = {
+    es: {
+      titulo:"¿Cuánto pagarías por un seguro del Mercado?", sub:"Responde 4 datos y te mostramos un estimado en segundos.",
+      paso1:"Tus datos básicos", estado:"Estado donde vives", eligeEstado:"Elige tu estado", edad:"Tu edad", edadPareja:"Edad de tu pareja",
+      phEdad:"Ej. 40", phOpcional:"Opcional", hijos:"Hijos a cubrir", ninguno:"Ninguno", cincoMas:"5 o más", hogar:"Personas en tu hogar",
+      ingreso:"Ingreso anual del hogar (aprox.)", phIngreso:"Ej. 35000", calcular:"Ver mi estimado",
+      precioMercado:"Precio de mercado, plan Plata", subsidio:"Subsidio estimado", noAplica:"No aplica",
+      podrias:"Podrías pagar alrededor de", sinAyuda:"Precio sin ayuda", mes:"/mes", rango:(a,b)=>`Rango estimado: ${a} a ${b} al mes`,
+      avisoSub:"¡Buenas noticias! Con tu ingreso podrías calificar para subsidio. Envíanos tus datos y revisamos tu caso para que accedas a todos los ahorros disponibles; algunos planes Bronce pueden costar $0 o casi nada.",
+      avisoUT:"Con ese ingreso podrías calificar para Medicaid en Utah. Envíanos tus datos y te ayudamos a revisarlo.",
+      avisoBajo:"Con ese ingreso el subsidio puede no aplicar, pero hay otras opciones. Envíanos tus datos y buscamos la mejor para ti.",
+      avisoAlto:"Con ese ingreso no aplica el subsidio federal, pero podemos buscarte planes más económicos. Envíanos tus datos y comparamos opciones.",
+      alt:"¿No calificas para el Mercado? También tenemos planes privados de accidentes, hospital, cáncer y vida, sin importar tu situación.",
+      paso2:"Recibe tu cotización exacta", nombre:"Nombre", phNombre:"Tu nombre", enviar:"Enviar mis datos", enviando:"Enviando…",
+      gracias:"¡Recibido! Te escribimos pronto por WhatsApp.", whatsapp:"Hablar ahora por WhatsApp",
+      eEstado:"Elige tu estado.", eEdad:"Escribe una edad entre 18 y 64 años.", eIngreso:"Escribe tu ingreso anual aproximado.",
+      eNombre:"Escribe tu nombre.", eTel:"Escribe tu número de WhatsApp de 10 dígitos.", eZip:"Escribe tu ZIP de 5 dígitos.", eEnvio:"No se pudo enviar. Usa el botón de WhatsApp.",
+      waTxt:r=>`Hola, quiero cotizar un seguro del Mercado. Estado: ${r.estado||""}. Edad: ${r.edad||""}. Personas en el hogar: ${r.hogar||""}. Mi estimado fue ${r.estimado?"$"+r.estimado+"/mes":""}.`,
+      nota:"Estimado de referencia, no es una cotización oficial. Usa el precio promedio 2026 del plan Plata de referencia para una persona de 40 años en tu estado (KFF), ajustado por edad. Los precios 2027 pueden ser más altos. El subsidio depende de tus ingresos y requiere ciudadanía o presencia legal. Agentes independientes con licencia. No afiliados al gobierno federal ni a HealthCare.gov.",
+      boton:"EN"
+    },
+    en: {
+      titulo:"How much would Marketplace insurance cost you?", sub:"Answer 4 questions and see an estimate in seconds.",
+      paso1:"Your basic info", estado:"State you live in", eligeEstado:"Choose your state", edad:"Your age", edadPareja:"Spouse's age",
+      phEdad:"e.g. 40", phOpcional:"Optional", hijos:"Children to cover", ninguno:"None", cincoMas:"5 or more", hogar:"People in your household",
+      ingreso:"Yearly household income (approx.)", phIngreso:"e.g. 35000", calcular:"See my estimate",
+      precioMercado:"Market price, Silver plan", subsidio:"Estimated subsidy", noAplica:"Not eligible",
+      podrias:"You could pay around", sinAyuda:"Price without help", mes:"/mo", rango:(a,b)=>`Estimated range: ${a} to ${b} per month`,
+      avisoSub:"Good news! With your income you may qualify for a subsidy. Send us your info and we'll review your case so you get every saving available; some Bronze plans can cost $0 or close to it.",
+      avisoUT:"With that income you may qualify for Medicaid in Utah. Send us your info and we'll help you check.",
+      avisoBajo:"With that income the subsidy may not apply, but there are other options. Send us your info and we'll find the best one for you.",
+      avisoAlto:"With that income the federal subsidy doesn't apply, but we can find more affordable plans. Send us your info and we'll compare options.",
+      alt:"Don't qualify for the Marketplace? We also offer private accident, hospital, cancer and life plans, whatever your situation.",
+      paso2:"Get your exact quote", nombre:"Name", phNombre:"Your name", enviar:"Send my info", enviando:"Sending…",
+      gracias:"Got it! We'll message you soon on WhatsApp.", whatsapp:"Chat now on WhatsApp",
+      eEstado:"Choose your state.", eEdad:"Enter an age between 18 and 64.", eIngreso:"Enter your approximate yearly income.",
+      eNombre:"Enter your name.", eTel:"Enter your 10-digit WhatsApp number.", eZip:"Enter your 5-digit ZIP.", eEnvio:"Couldn't send. Use the WhatsApp button.",
+      waTxt:r=>`Hi, I'd like a Marketplace insurance quote. State: ${r.estado||""}. Age: ${r.edad||""}. Household size: ${r.hogar||""}. My estimate was ${r.estimado?"$"+r.estimado+"/mo":""}.`,
+      nota:"Reference estimate, not an official quote. Based on the 2026 average benchmark Silver plan price for a 40-year-old in your state (KFF), adjusted for age. 2027 prices may be higher. Subsidies depend on income and require citizenship or lawful presence. Independent licensed agents. Not affiliated with the federal government or HealthCare.gov.",
+      boton:"ES"
+    }
+  };
+  function idiomaInicial(){
+    try { const g = localStorage.getItem("rv_lang"); if (g) return g; } catch(e){}
+    const c = (tgUser.language_code || navigator.language || "es").toLowerCase();
+    return c.startsWith("es") ? "es" : "en";
+  }
+  let L = idiomaInicial();
+  const t = k => T[L][k];
+  function aplicarIdioma(){
+    document.documentElement.lang = L;
+    document.querySelectorAll("[data-i18n]").forEach(el => el.textContent = t(el.dataset.i18n));
+    document.querySelectorAll("[data-i18n-ph]").forEach(el => el.placeholder = t(el.dataset.i18nPh));
+    $("idioma").textContent = t("boton");
+    if (ultimo) mostrar(); else actualizarWA();
+  }
+  $("idioma").addEventListener("click", () => {
+    L = L === "es" ? "en" : "es";
+    try { localStorage.setItem("rv_lang", L); } catch(e){}
+    aplicarIdioma();
+  });
+
+  let calc = null;
   $("calcular").addEventListener("click", () => {
     const st = $("estado").value;
     const edad = parseInt($("edad").value, 10);
@@ -207,9 +265,9 @@
     let hogar = parseInt($("hogar").value, 10);
     const ingreso = parseFloat($("ingreso").value);
 
-    if (!st) return $("err1").textContent = "Elige tu estado.";
-    if (!(edad >= 18 && edad <= 64)) return $("err1").textContent = "Escribe una edad entre 18 y 64 años.";
-    if (!(ingreso >= 0)) return $("err1").textContent = "Escribe tu ingreso anual aproximado.";
+    if (!st) return $("err1").textContent = t("eEstado");
+    if (!(edad >= 18 && edad <= 64)) return $("err1").textContent = t("eEdad");
+    if (!(ingreso >= 0)) return $("err1").textContent = t("eIngreso");
     $("err1").textContent = "";
 
     const cubiertos = 1 + (edadP ? 1 : 0) + hijos;
@@ -222,41 +280,33 @@
 
     const pct = ingreso / fpl(hogar) * 100;
     const ap = aporte(pct);
-    let neto = bruto, sub = 0, aviso = "", etiqueta = "Podrías pagar alrededor de";
+    let neto = bruto, sub = 0, tipo;
+    if (ap !== null) { neto = Math.min(bruto, ingreso * ap / 12); sub = bruto - neto; tipo = "sub"; }
+    else if (pct < 100) tipo = (st === "UT" && pct < 138) ? "UT" : "bajo";
+    else tipo = "alto";
 
-    if (ap !== null) {
-      neto = Math.min(bruto, ingreso * ap / 12);
-      sub = bruto - neto;
-      aviso = "¡Buenas noticias! Con tu ingreso podrías calificar para subsidio. Envíanos tus datos y revisamos tu caso para que accedas a todos los ahorros disponibles; algunos planes Bronce pueden costar $0 o casi nada.";
-    } else if (pct < 100) {
-      etiqueta = "Precio sin ayuda";
-      aviso = st === "UT" && pct < 138
-        ? "Con ese ingreso podrías calificar para Medicaid en Utah. Envíanos tus datos y te ayudamos a revisarlo."
-        : "Con ese ingreso el subsidio puede no aplicar, pero hay otras opciones. Envíanos tus datos y buscamos la mejor para ti.";
-    } else {
-      etiqueta = "Precio sin ayuda";
-      aviso = "Con ese ingreso no aplica el subsidio federal, pero podemos buscarte planes más económicos. Envíanos tus datos y comparamos opciones.";
-    }
-
-    $("r-bruto").textContent = money(bruto) + "/mes";
-    $("r-bruto").className = sub > 0 ? "tachado" : "";
-    $("r-sub").textContent = sub > 0 ? "−" + money(sub) : "No aplica";
-    $("r-etiqueta").textContent = etiqueta;
-    $("r-neto").innerHTML = money(neto) + " <em>/mes</em>";
-    $("r-rango").textContent = "Rango estimado: " + money(neto * 0.85) + " a " + money(neto * 1.15) + " al mes";
-    $("r-aviso").textContent = aviso;
-
+    calc = { tipo };
     ultimo = { estado: NOMBRE_ESTADO[st], edad, edadPareja: edadP || "", hijos, hogar, ingreso,
                precioMercado: Math.round(bruto), subsidio: Math.round(sub), estimado: Math.round(neto) };
-
+    mostrar();
     $("resultado").style.display = "block";
-    actualizarWA();
     $("resultado").scrollIntoView({ behavior: "smooth", block: "start" });
   });
 
+  function mostrar(){
+    const r = ultimo, sub = r.subsidio > 0;
+    $("r-bruto").textContent = money(r.precioMercado) + t("mes");
+    $("r-bruto").className = sub ? "tachado" : "";
+    $("r-sub").textContent = sub ? "−" + money(r.subsidio) : t("noAplica");
+    $("r-etiqueta").textContent = calc.tipo === "sub" ? t("podrias") : t("sinAyuda");
+    $("r-neto").innerHTML = money(r.estimado) + " <em>" + t("mes") + "</em>";
+    $("r-rango").textContent = t("rango")(money(r.estimado * 0.85), money(r.estimado * 1.15));
+    $("r-aviso").textContent = t({sub:"avisoSub", UT:"avisoUT", bajo:"avisoBajo", alto:"avisoAlto"}[calc.tipo]);
+    actualizarWA();
+  }
+
   function actualizarWA(){
-    const r = ultimo || {};
-    const txt = `Hola, quiero cotizar un seguro del Mercado. Estado: ${r.estado || ""}. Edad: ${r.edad || ""}. Personas en el hogar: ${r.hogar || ""}. Mi estimado fue ${r.estimado ? "$" + r.estimado + "/mes" : ""}.`;
+    const txt = t("waTxt")(ultimo || {});
     $("wa").href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(txt)}`;
   }
 
@@ -264,10 +314,10 @@
     const nombre = $("nombre").value.trim();
     let tel = $("tel").value.replace(/\D/g, "");
     const zip = $("zip").value.replace(/\D/g, "");
-    if (!nombre) return $("err2").textContent = "Escribe tu nombre.";
+    if (!nombre) return $("err2").textContent = t("eNombre");
     if (tel.length === 10) tel = "1" + tel;
-    if (tel.length !== 11) return $("err2").textContent = "Escribe tu número de WhatsApp de 10 dígitos.";
-    if (zip.length !== 5) return $("err2").textContent = "Escribe tu ZIP de 5 dígitos.";
+    if (tel.length !== 11) return $("err2").textContent = t("eTel");
+    if (zip.length !== 5) return $("err2").textContent = t("eZip");
     $("err2").textContent = "";
 
     const datos = new URLSearchParams({
@@ -275,17 +325,18 @@
       telegram_id: String(tgUser.id || ""), telegram_usuario: tgUser.username || ""
     });
 
-    $("enviar").disabled = true; $("enviar").textContent = "Enviando…";
+    $("enviar").disabled = true; $("enviar").textContent = t("enviando");
     try {
       await fetch(WEBHOOK_URL, { method: "POST", mode: "no-cors", body: datos });
       $("enviar").style.display = "none";
       $("gracias").style.display = "block";
       if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred("success");
     } catch (e) {
-      $("enviar").disabled = false; $("enviar").textContent = "Enviar mis datos";
-      $("err2").textContent = "No se pudo enviar. Usa el botón de WhatsApp.";
+      $("enviar").disabled = false; $("enviar").textContent = t("enviar");
+      $("err2").textContent = t("eEnvio");
     }
   });
+  aplicarIdioma();
 </script>
 </body>
 </html>
